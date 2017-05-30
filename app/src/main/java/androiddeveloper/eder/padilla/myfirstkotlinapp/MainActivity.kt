@@ -13,15 +13,15 @@ data class Ejemplo(val nombre : String , val url : String)
 
 class MainActivity : AppCompatActivity() {
 
-    var react = Ejemplo("me cae mal el perro","guarrumo")
+    val react = Ejemplo("me cae mal el perro","guarrumo")
 
     val test2 = Ejemplo("Dafawq","estoy haciendo")
 
-    val haywey = Ejemplo(react.nombre,test2.url)
+    var haywey = react.copy()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main_2)
         val txt = findViewById(R.id.text) as TextView
 
         val btn = findViewById(R.id.button) as Button
@@ -30,24 +30,28 @@ class MainActivity : AppCompatActivity() {
         log("se tiene ${haywey.nombre} y tambien esta ${haywey.url}")
         val copia = haywey.copy()
         log("se copia ${copia}")
-        btn.setOnClickListener {
-            view -> switchClase(react)
-        }
-    }
 
+
+        btn.setOnClickListener {
+            view -> switchClase(haywey)
+        }
+        btn.setText(ejemplos())
+    }
     fun log(message : String){
         Log.e("::DEBUG::",message)
     }
-
     fun switchClase(ejemplo : Ejemplo){
-        react = ejemplo.copy()
+        log("entra al click")
+        val txt = findViewById(R.id.text) as TextView
+        txt.setText(haywey.toString())
+        haywey = ejemplo.copy()
         when(ejemplo.nombre){
-            "Dafawq"-> react = test2.copy()
-            "me cae mal el perro" -> react = react.copy()
+            "guarrumo"-> haywey = test2.copy()
+            "estoy haciendo" -> haywey = react.copy()
             else -> print("Asi se imprime en consola")
         }
-        val txt = findViewById(R.id.text) as TextView
-        txt.setText(react.toString())
     }
+
+    fun ejemplos() : String = "${react.nombre} y ${test2.nombre}}"
 
 }
